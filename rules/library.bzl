@@ -665,10 +665,12 @@ def apple_library(name, library_tools = {}, export_private_headers = True, names
 
     additional_objc_copts.append("-I.")
 
-    additional_objc_copts.extend(("-index-store-path", "$(GENDIR)/{package}/rules_ios_objc_library_{libname}.indexstore".format(
-        package = native.package_name(),
-        libname = objc_libname,
-    )))
+    # Consider adding a flag for this
+    #additional_objc_copts.extend(("-index-store-path", "$(GENDIR)/{package}/rules_ios_objc_library_{libname}.indexstore".format(
+    #    package = native.package_name(),
+    #    libname = objc_libname,
+    #)))
+
     objc_library(
         name = objc_libname,
         srcs = objc_sources + objc_private_hdrs + objc_non_exported_hdrs,
