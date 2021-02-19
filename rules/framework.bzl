@@ -190,7 +190,7 @@ def _apple_framework_packaging_impl(ctx):
             # collect headers
             has_header = False
             for hdr in dep[apple_common.Objc].direct_headers:
-                if hdr.path.endswith((".h", ".hh")):
+                if hdr.path.endswith((".h", ".hh", ".hpp")):
                     has_header = True
                     header_in.append(hdr)
                     destination = paths.join(framework_dir, "Headers", hdr.basename)
@@ -271,7 +271,7 @@ def _apple_framework_packaging_impl(ctx):
 
     # gather objc provider fields
     objc_provider_fields = {
-        "providers": [dep[apple_common.Objc] for dep in ctx.attr.transitive_deps],
+        "providers": [dep[apple_common.Objc] for dep in ctx.attr.transitive_deps if apple_common.Objc in dep],
     }
 
     if framework_root:
@@ -302,7 +302,7 @@ def _apple_framework_packaging_impl(ctx):
     ]:
         set = depset(
             direct = [],
-            transitive = [getattr(dep[apple_common.Objc], key) for dep in ctx.attr.deps],
+            transitive = [getattr(dep[apple_common.Objc], key) for dep in ctx.attr.deps if apple_common.Objc in dep],
         )
         _add_to_dict_if_present(objc_provider_fields, key, set)
 
