@@ -229,14 +229,20 @@ def _xcframework_slice(*, xcframework_name, identifier, platform, platform_varia
     if (linkage, packaging) == ("dynamic", "framework"):
         apple_dynamic_framework_import(
             name = import_name,
-            framework_imports = native.glob([path + "/**/*"]),
+            framework_imports = native.glob(
+              [path + "/**/*"],
+              exclude=["**/.DS_Store"],
+            ),
             deps = [],
             tags = _MANUAL,
         )
     elif (linkage, packaging) == ("static", "framework"):
         apple_static_framework_import(
             name = import_name,
-            framework_imports = native.glob([path + "/**/*"]),
+            framework_imports = native.glob(
+              [path + "/**/*"],
+              exclude=["**/.DS_Store"],
+            ),
             deps = [],
             tags = _MANUAL,
         )
